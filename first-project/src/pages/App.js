@@ -1,13 +1,12 @@
 import React from 'react';
-import UttersList from "../components/UttersList";
 import './App.css';
+import UtterPage from "./UtterPage"
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Hello World</p>
-        <UttersList />
+        <UtterPage />
       </header>
     </div>
   );

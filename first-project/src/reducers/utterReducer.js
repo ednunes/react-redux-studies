@@ -3,7 +3,7 @@ export default (state, action) => {
         case "ADD_UTTER":
             let ns = {
                 ...state,
-                text: action.text,
+                text: action.text
             };
             return ns;
         case "REMOVE_UTTER":
@@ -11,6 +11,13 @@ export default (state, action) => {
                 ...state,
                 text: action.text,
             };
+        case "UPDATE_UTTER":
+            return {
+                ...state,
+                text: action.text,
+            };
+        case "GET_UTTERS":
+            return { ...state, utters: action.utters };
         default:
             return state;
     }
