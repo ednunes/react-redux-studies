@@ -3,8 +3,20 @@ import thunk from 'redux-thunk';
 import utterReducer from "../reducers/utterReducer";
 
 const INITIAL_STATE = {
-  text: "",
-  utters: []
+  utters: [],
+  current_utter: {},
+  new_utter: {
+    "nameUtter": "",
+    "utters": [
+      {
+        "utterText": [
+          {
+            "text": "Texto qualquer."
+          }
+        ]
+      }
+    ]
+  }
 };
 
 function configureStore(state = INITIAL_STATE) {

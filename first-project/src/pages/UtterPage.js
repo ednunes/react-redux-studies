@@ -25,7 +25,7 @@ class UtterPage extends Component {
       <div>
         <UtterForm />
         {this.props.text}
-        <button onClick={() => this.props.addUtterAction(data)}>Add utter</button>
+        <button onClick={() => this.props.createUtterAction(data)}>Add utter</button>
         <button onClick={() => this.props.removeUtterAction("123")}>Remove utter</button>
         <button onClick={() => this.props.updateUtterAction("123")}>Atualizar utter</button>
         <UttersList />
@@ -39,7 +39,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addUtterAction: (new_utter) => dispatch(utterAction.addUtterAction(new_utter)),
+  createUtterAction: (new_utter) => dispatch(utterAction.createUtterAction(new_utter)),
   removeUtterAction: (utter_id) => dispatch(utterAction.removeUtterAction(utter_id)),
   updateUtterAction: (new_utter) => dispatch(utterAction.updateUtterAction(new_utter))
 });

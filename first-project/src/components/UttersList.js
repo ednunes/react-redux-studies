@@ -10,7 +10,10 @@ class UttersList extends Component {
   uttersList() {
     if (this.props.utters !== undefined) {
       return this.props.utters.map((utter, index) => (
-        <li key={"utter_list" + index}>{utter.nameUtter}</li>
+        <li key={"utter_list" + index}
+          onClick={(e) => this.props.selectNewUtter(this.props.utters, utter._id)}>
+            {utter.nameUtter}
+        </li>
       ));
     }
   }
@@ -28,7 +31,8 @@ class UttersList extends Component {
 const mapStateToProps = state => { return { utters: state.utters } };
 
 const mapDispatchToProps = dispatch => ({
-  getUttersAction: () => dispatch(utterAction.getUttersAction())
+  getUttersAction: () => dispatch(utterAction.getUttersAction()),
+  selectNewUtter: (utters, utter_id) => dispatch(utterAction.selectNewUtter(utters, utter_id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UttersList);
