@@ -2,30 +2,32 @@ import axios from "axios";
 const apiAddGetUrl = "https://botflow.api.lappis.rocks/project/utter/";
 const apiUpdateDeletetUrl = "https://botflow.api.lappis.rocks/utter/";
 
+// Utters
 
-export const addUtterText = () => {
+export const filterUtters = (value) => {
     return {
-        type: "ADD_UTTER_TEXT",
-        text: {
-            "utterText": [
-                {
-                    "text": ""
-                }
-            ]
-        }
+        type: "FILTER_UTTERS",
+        value: value
+    }
+}
+
+export const setUtterName = (utter_name) => {
+    return {
+        type: "SET_UTTER_NAME",
+        utter_name: utter_name
     }
 }
 
 export const createUtterAction = (new_utter = {}) => {
-    return (dispatch) => {
-        return axios.post(apiAddGetUrl, new_utter)
-            .then(response => {
-                dispatch(createUtterSuccess());
-                dispatch(getUttersAction());
-            })
-            .catch(error => {
-                throw (error);
-            });
+    return async (dispatch) => {
+        try {
+            const response = await axios.post(apiAddGetUrl, new_utter);
+            dispatch(createUtterSuccess());
+            dispatch(getUttersAction());
+        }
+        catch (error) {
+            throw (error);
+        }
     }
 };
 
@@ -36,32 +38,16 @@ export const createUtterSuccess = () => {
     }
 };
 
-export const setUtterName = (utter_name) => {
-    return {
-        type: "SET_UTTER_NAME",
-        utter_name: utter_name
-    }
-}
-
-export const setUtterText = (utter_position, text_position, text) => {
-    return {
-        type: "SET_UTTER_TEXT",
-        utter_position: utter_position,
-        text_position: text_position,
-        text: text
-    }
-}
-
 export const updateUtterAction = (new_utter = {}) => {
-    return (dispatch) => {
-        return axios.put(apiUpdateDeletetUrl, new_utter)
-            .then(response => {
-                dispatch(updateUtterSuccess());
-                dispatch(getUttersAction());
-            })
-            .catch(error => {
-                throw (error);
-            });
+    return async (dispatch) => {
+        try {
+            const response = await axios.put(apiUpdateDeletetUrl, new_utter);
+            dispatch(updateUtterSuccess());
+            dispatch(getUttersAction());
+        }
+        catch (error) {
+            throw (error);
+        }
     }
 };
 
@@ -75,18 +61,17 @@ export const updateUtterSuccess = () => {
 export const removeUtterAction = (utter_id = "") => {
     let url_delete = apiUpdateDeletetUrl + utter_id;
 
-    return (dispatch) => {
-        return axios.delete(url_delete)
-            .then(response => {
-                dispatch(removeUtterSucess())
-                dispatch(getUttersAction());
-            })
-            .catch(error => {
-                throw (error);
-            });
+    return async (dispatch) => {
+        try {
+            const response = await axios.delete(url_delete);
+            dispatch(removeUtterSucess());
+            dispatch(getUttersAction());
+        }
+        catch (error) {
+            throw (error);
+        }
     }
 };
-
 
 export const removeUtterSucess = () => {
     return {
@@ -114,11 +99,49 @@ export const getUtters = (utters = []) => {
     }
 };
 
-export const selectNewUtter = (utters = [], utter_id = "") => {
+export const selectUtter = (utters = [], utter_id = "") => {
     let utter = utters.find((utter) => utter._id === utter_id);
 
     return {
-        type: "SELECT_NEW_UTTER",
+        type: "SELECT_UTTER",
         current_utter: utter
+    }
+}
+
+// UTTER TEXT ACTIONS
+
+export const undoTextRemotion = () => {
+    return {
+        type: "UNDO_TEXT_REMOTION",
+
+    }
+}
+
+export const addUtterText = () => {
+    return {
+        type: "ADD_UTTER_TEXT",
+        text: {
+            "utterText": [
+                {
+                    "text": ""
+                }
+            ]
+        }
+    }
+}
+
+export const removeUtterText = (text_position) => {
+    return {
+        type: "REMOVE_UTTER_TEXT",
+        text_position: text_position
+    }
+}
+
+export const setUtterText = (utter_position, text_position, text) => {
+    return {
+        type: "SET_UTTER_TEXT",
+        utter_position: utter_position,
+        text_position: text_position,
+        text: text
     }
 }

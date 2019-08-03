@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setUtterName, setUtterText, addUtterText } from "../actions/uttersAction";
+import { setUtterName, setUtterText, addUtterText, undoTextRemotion, removeUtterText } from "../actions/uttersAction";
 
 
 class UtterForm extends Component {
@@ -44,8 +44,9 @@ class UtterForm extends Component {
         return utter_text_list.utterText.map((utter_text, text_index) => {
           return (
             <li key={"utter_text" + text_index}>
-              <input type="text" value={utter_text.text}
+              <textarea type="text" value={utter_text.text}
                 onChange={(e) => this.props.setUtterText(utter_index, text_index, e.target.value)} />
+              <button onClick={() => this.props.removeUtterText(utter_index)}>Deleter o texto</button>
             </li>
           )
         })
@@ -74,6 +75,7 @@ class UtterForm extends Component {
             </ul>
           </label>
 
+          <button onClick={() => this.props.undoTextRemotion()}>UNDO</button>
           <button onClick={() => this.props.addUtterText()}>ADD MORE</button>
           <input type="submit" value="Submit" />
         </form>
@@ -91,6 +93,8 @@ class UtterForm extends Component {
 const mapStateToProps = state => { return { ...state } };
 
 const mapDispatchToProps = dispatch => ({
+  removeUtterText: (text_position) => dispatch(removeUtterText(text_position)),
+  undoTextRemotion: () => dispatch(undoTextRemotion()),
   addUtterText: () => dispatch(addUtterText()),
   setUtterName: (utter_name) => dispatch(setUtterName(utter_name)),
   setUtterText: (utter_position, text_position, text) => dispatch(setUtterText(utter_position, text_position, text))

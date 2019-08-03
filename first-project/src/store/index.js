@@ -3,7 +3,10 @@ import thunk from 'redux-thunk';
 import utterReducer from "../reducers/utterReducer";
 
 const INITIAL_STATE = {
+  old_utter_texts: [],
   utters: [],
+  filtered_utters: [],
+  filter_value: "",
   current_utter: {},
   new_utter: {
     "nameUtter": "",
@@ -11,7 +14,7 @@ const INITIAL_STATE = {
       {
         "utterText": [
           {
-            "text": "Texto qualquer."
+            "text": ""
           }
         ]
       }
