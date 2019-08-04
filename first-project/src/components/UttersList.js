@@ -4,15 +4,15 @@ import * as utterAction from "../actions/uttersAction";
 
 class UttersList extends Component {
   componentWillMount() {
-    this.props.getUttersAction();
+    this.props.getUtters();
   }
 
   uttersList() {
-    if (this.props.utters !== undefined) {
+    if (this.props.filtered_utters !== undefined) {
       return this.props.filtered_utters.map((utter, index) => (
-        <li key={"utter_list" + index}
-          onClick={(e) => this.props.selectUtter(this.props.utters, utter._id)}>
-            {utter.nameUtter}
+        <li key={"utters_list" + index}
+          onClick={() => this.props.selectUtter(this.props.utters, utter._id)}>
+          {utter.nameUtter}
         </li>
       ));
     }
@@ -21,6 +21,7 @@ class UttersList extends Component {
   render() {
     return (
       <div>
+        <button onClick={() => this.props.createNewUtter()}>Criar uma nova utter</button>
         <h1>Lista de Utters</h1>
         <ul>{this.uttersList()}</ul>
         <input value={this.props.filter_value} onChange={(e) => this.props.filterUtters(e.target.value)} />
@@ -37,7 +38,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getUttersAction: () => dispatch(utterAction.getUttersAction()),
+  getUtters: () => dispatch(utterAction.getUtters()),
+  createNewUtter: () => dispatch(utterAction.createNewUtter()),
   filterUtters: (value) => dispatch(utterAction.filterUtters(value)),
   selectUtter: (utters, utter_id) => dispatch(utterAction.selectUtter(utters, utter_id))
 });
