@@ -6,28 +6,13 @@ import * as utterAction from "../actions/uttersAction";
 
 class UtterPage extends Component {
   render() {
-    let data = {
-      "_id": "3123",
-      "utters": [
-        {
-          "utterText": [
-            {
-              "text": "If they say Who cares if one more light goes out? In a sky of a million stars It flickers, flickers Who cares when someone's time runs out? If a moment is all we are We're quicker, quicker Who cares if one more light goes out? Well I do"
-            }
-          ]
-        }
-      ],
-      "nameUtter": "Tcerto!",
-      "projectName": "project"
-    }
-
     return (
       <div>
         <UtterForm />
         {this.props.text}
-        <button onClick={() => this.props.createUtterAction(data)}>Add utter</button>
-        <button onClick={() => this.props.removeUtterAction("123")}>Remove utter</button>
-        <button onClick={() => this.props.updateUtterAction("123")}>Atualizar utter</button>
+        <button onClick={() => this.props.createUtterAction(this.props.current_utter)}>Add utter</button>
+        <button onClick={() => this.props.removeUtterAction(this.props.current_utter._id)}>Remove utter</button>
+        <button onClick={() => this.props.updateUtterAction(this.props.current_utter, this.props.current_utter._id)}>Atualizar utter</button>
         <UttersList />
       </div>
     )
@@ -35,13 +20,14 @@ class UtterPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  text: state.text
+  text: state.text,
+  current_utter: state.current_utter
 });
 
 const mapDispatchToProps = dispatch => ({
   createUtterAction: (new_utter) => dispatch(utterAction.createUtterAction(new_utter)),
   removeUtterAction: (utter_id) => dispatch(utterAction.removeUtterAction(utter_id)),
-  updateUtterAction: (new_utter) => dispatch(utterAction.updateUtterAction(new_utter))
+  updateUtterAction: (new_utter, id) => dispatch(utterAction.updateUtterAction(new_utter, id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UtterPage);

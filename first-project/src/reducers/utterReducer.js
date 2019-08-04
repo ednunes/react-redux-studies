@@ -72,13 +72,7 @@ export default (state, action) => {
             }
 
 
-        case "CREATE_UTTER":
-            return { ...state, text: action.text };
-
-        case "REMOVE_UTTER":
-            return { ...state, text: action.text };
-
-        case "UPDATE_UTTER":
+        case "SUCESS_ACTION_UTTER":
             return { ...state, text: action.text };
 
         case "GET_UTTERS":
