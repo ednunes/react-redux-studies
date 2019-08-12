@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as utterAction from "../actions/uttersAction";
 
+import Button from '@material-ui/core/Button';
+
 class UttersList extends Component {
   componentWillMount() {
     this.props.getUtters();
@@ -21,8 +23,8 @@ class UttersList extends Component {
   render() {
     return (
       <div>
-        <button onClick={() => this.props.createNewUtter()}>Criar uma nova utter</button>
-        <h1>Lista de Utters</h1>
+        <center><Button variant="contained" onClick={() => this.props.createNewUtter()}>Criar uma nova utter</Button></center>
+        <h8>Respostas cadastradas</h8>
         <ul>{this.uttersList()}</ul>
         <input value={this.props.filter_value} onChange={(e) => this.props.filterUtters(e.target.value)} />
       </div>
