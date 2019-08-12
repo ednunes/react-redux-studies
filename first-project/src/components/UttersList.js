@@ -11,7 +11,7 @@ class UttersList extends Component {
     if (this.props.filtered_utters !== undefined) {
       return this.props.filtered_utters.map((utter, index) => (
         <li key={"utters_list" + index}
-          onClick={() => this.props.selectUtter(this.props.utters, utter._id)}>
+          onClick={() => this.props.selectUtter(utter._id)}>
           {utter.nameUtter}
         </li>
       ));

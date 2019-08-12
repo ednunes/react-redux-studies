@@ -1,6 +1,5 @@
 export default (state, action) => {
     switch (action.type) {
-
         case "CREATE_NEW_UTTER":
             return { ...state, current_utter: action.new_utter }
 
@@ -80,7 +79,10 @@ export default (state, action) => {
             return { ...state, utters: [...action.utters], filtered_utters: [...action.utters] };
 
         case "SELECT_UTTER":
-            return { ...state, current_utter: action.current_utter };
+            return {
+                ...state,
+                current_utter: state.utters.find((utter) => utter._id === action.utter_id)
+            };
 
         default:
             return state;

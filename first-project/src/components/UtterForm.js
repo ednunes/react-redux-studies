@@ -4,11 +4,6 @@ import { setUtterName, setUtterText, addUtterText, undoTextRemotion, removeUtter
 
 
 class UtterForm extends Component {
-  constructor(props) {
-    super(props);
-
-  }
-
   setUtterTexts() {
     let utters_texts = [];
 
@@ -20,7 +15,7 @@ class UtterForm extends Component {
             <li key={"utter_text" + utter_index + text_index}>
               <textarea type="text" value={utter_text.text}
                 onChange={(e) => this.props.setUtterText(utter_index, text_index, e.target.value)} />
-              <button onClick={() => this.props.removeUtterText(utter_index)}>Deleter o texto</button>
+              <button type="button" onClick={() => this.props.removeUtterText(utter_index)}>Deleter o texto</button>
             </li>
           )
         })
@@ -40,22 +35,22 @@ class UtterForm extends Component {
             <h1>Resposta:</h1>
             <input type="text" value={utter_name} onChange={(e) => this.props.setUtterName(e.target.value)} />
           </label>
+
           <br />
+          
           <label>
             <h1>Textos das respostas:</h1>
             <ul>
               {this.setUtterTexts()}
             </ul>
           </label>
-
-          <button onClick={() => this.props.undoTextRemotion()}>UNDO</button>
-          <button onClick={() => this.props.addUtterText()}>ADD MORE</button>
+          
+          <button type="button" onClick={() => this.props.undoTextRemotion()}>UNDO</button>
+          <button type="button" onClick={() => this.props.addUtterText()}>ADD MORE</button>
         </form>
-
 
         <h1>{utter_name}</h1>
         <pre>{JSON.stringify(this.props.current_utter, null, 2)}</pre>
-
       </div>
     );
   }

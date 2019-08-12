@@ -1,44 +1,82 @@
+import axios from "axios";
 import { Utter } from '../utils/utter.js'
-import { createOrUpdateAction, getOrRemoveAction } from "./crudAction"
 
-const UTTER_URL_API_GET_DELETE = "https://botflow.api.lappis.rocks/utter/";
-const UTTER_URL_API_CREATE_UPDATE = "https://botflow.api.lappis.rocks/project/utter/";
+//const BASE = "https://botflow.api.lappis.rocks/" 
+const BASE = "http://localhost:3030/"
 
-const GET = "get";
-const CREATE = "post";
-const UPDATE = "put";
-const DELETE = "delete";
+const UTTER_URL_API_GET_DELETE = BASE + "utter/";
+const UTTER_URL_API_CREATE_UPDATE = BASE + "project/utter/";
 
 // Utters
 
 export const getUtters = () => {
-    return getOrRemoveAction(GET, UTTER_URL_API_CREATE_UPDATE);
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(UTTER_URL_API_CREATE_UPDATE);
+            dispatch({ type: "GET_UTTERS", utters: response.data });
+        }
+        catch (error) {
+            throw (error);
+        }
+    }
 };
 
 export const createUtter = (new_utter = {}) => {
     let message = "Utter criada com sucesso!";
 
-    return createOrUpdateAction(new_utter, CREATE, UTTER_URL_API_CREATE_UPDATE, message, getUtters);
+    return async (dispatch) => {
+        try {
+            const response = await axios.post(UTTER_URL_API_CREATE_UPDATE, new_utter);
+            dispatch(successAction(message));
+            dispatch(getUtters());
+        }
+        catch (error) {
+            throw (error);
+        }
+    }
+};
+
+export const successAction = (message) => {
+    return {
+        type: "SUCESS_ACTION_UTTER",
+        text: message,
+    }
 };
 
 export const updateUtter = (new_utter = {}, utter_id) => {
     let url = UTTER_URL_API_GET_DELETE + utter_id;
     let message = "Utter atualizada com sucesso!";
 
-    return createOrUpdateAction(new_utter, UPDATE, url, message, getUtters);
+    return async (dispatch) => {
+        try {
+            const response = await axios.put(url, new_utter);
+            dispatch(successAction(message));
+            dispatch(getUtters());
+        }
+        catch (error) {
+            throw (error);
+        }
+    }
 };
 
 export const removeUtter = (utter_id = "") => {
-    let message = "Utter atualizada com sucesso!";
+    let message = "Utter removida com sucesso!";
     let url_delete = UTTER_URL_API_GET_DELETE + utter_id;
 
-    return getOrRemoveAction(DELETE, url_delete, message, getUtters);
+    return async (dispatch) => {
+        try {
+            const response = await axios.delete(url_delete);
+            dispatch(successAction(message));
+            dispatch(getUtters());
+        }
+        catch (error) {
+            throw (error);
+        }
+    }
 };
 
-export const selectUtter = (utters = [], utter_id = "") => {
-    let utter = utters.find((utter) => utter._id === utter_id);
-
-    return { type: "SELECT_UTTER", current_utter: utter }
+export const selectUtter = (utter_id = "") => {
+    return { type: "SELECT_UTTER", utter_id: utter_id }
 }
 
 export const filterUtters = (value = "") => {
